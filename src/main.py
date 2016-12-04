@@ -62,9 +62,12 @@ def generate_rc(i):
     # 16 bit round add to rc
     return [0, 0, 0, int(RC[i][0:2], 16), int(RC[i][2:4], 16)]
 
+def generate_hexadecimal_array(text):
+    return [int(text[x:x+2], 16) for x in range(0, len(text), 2)]
+
 def encrypt(message, key):
-    h_message = [int(message[x:x+2], 16) for x in range(0, len(message), 2)]
-    h_key = [int(key[x:x+2], 16) for x in range(0, len(key), 2)]
+    h_message = generate_hexadecimal_array(message)
+    h_key = generate_hexadecimal_array(key)
 
     x = []
     half = len(h_message) / 2
@@ -92,8 +95,8 @@ def encrypt(message, key):
     return "".join(map(lambda x: '{0:02X}'.format(x), cl + cr))
 
 def decrypt(enc_message, key):
-    h_message = [int(enc_message[x:x+2], 16) for x in range(0, len(enc_message), 2)]
-    h_key = [int(key[x:x+2], 16) for x in range(0, len(key), 2)]
+    h_message = generate_hexadecimal_array(enc_message)
+    h_key = generate_hexadecimal_array(key)
 
     x = []
     half = len(h_message) / 2
@@ -120,7 +123,27 @@ def decrypt(enc_message, key):
 
     return "".join(map(lambda x: '{0:02X}'.format(x), cl + cr))
 
-# Tests
+# for texts
+def encrypt_text(text, key):
+    plain_text2_hex =  "".join("{:02x}".format(ord(c)) for c in text)
+    print(plain_text2_hex)
+    
+    encrypted_texts = []
+    for x in range(0, len(plain_text2_hex), 20):
+        final_index =  len(plain_text2_hex) if x + 20 > len(plain_text2_hex) else x + 20
+        current_text = "{0:0<20}".format(plain_text2_hex[x:final_index])
+        encrypted_texts += [encrypt(current_text, key2)]
+    
+    return encrypted_texts
+
+def decrypt_text(encrypted_texts, key):
+    decrypted_plain_text = ''
+    for enc2 in encrypted_texts:
+        decrypted_plain_text += decrypt(enc2, key2)        
+        
+    return decrypted_plain_text.decode('hex').rstrip(' \t\r\n\0')
+
+# Tests for hexadecimal implementation
 key = '00000000000000000080'
 plain_text = '01000000000000000000'
 enc = encrypt(plain_text, key)
@@ -128,3 +151,13 @@ dec = decrypt(enc, key)
 print(enc)
 print(dec)
 print(dec == plain_text)
+
+#Tests for texts implementation
+key2 = '00000000000000000080'
+plain_text2 = 'Andrey Rocks'
+
+enc2 = encrypt_text(plain_text2, key2)
+dec2 = decrypt_text(enc2, key2)
+print(enc2)
+print(dec2)
+print(dec2 == plain_text2)
