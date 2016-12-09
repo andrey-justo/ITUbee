@@ -41,7 +41,7 @@ def xor(list1, list2):
     for i in range(0, len(list1)):
         list3 += [list1[i] ^ list2[i]]
         
-        return list3
+    return list3
     
 def generate_rc(i):
     # 16 bit round add to rc
@@ -62,7 +62,6 @@ class ITUbee():
         return x
 
     def f(self, a):
-        # check if we need to sum 1 -> see matlab algorithm
         temp_x = self.l(map(lambda x: SBOX[x & 255], a))
     
         return map(lambda x: SBOX[x  & 255], temp_x)
@@ -87,7 +86,7 @@ class ITUbee():
                 rk = kl
             else:
                 rk = kr
-            
+
             rc = generate_rc(i - 1)
             x += [xor(x[i - 1], self.f(self.l(xor(xor(rk, rc), self.f(x[i])))))] 
         

@@ -7,7 +7,9 @@ Tests for hexadecimal implementation
 '''
 
 from itubee.main import ITUbee
+import time
 
+start = time.time()
 itubee = ITUbee()
  
 key = '00000000000000000080'
@@ -17,3 +19,6 @@ dec = itubee.decrypt(enc, key)
 print(enc)
 print(dec)
 print(dec == plain_text)
+
+end = time.time()
+print(end - start)

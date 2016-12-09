@@ -7,7 +7,9 @@ Tests for texts implementation
 '''
 
 from itubee.main import ITUbeeTexts
+import time
 
+start = time.time()
 itubee = ITUbeeTexts()
 
 key2 = '00000000000000000080'
@@ -18,3 +20,6 @@ dec2 = itubee.decrypt_text(enc2, key2)
 print(enc2)
 print(dec2)
 print(dec2 == plain_text2)
+
+end = time.time()
+print(end - start)
