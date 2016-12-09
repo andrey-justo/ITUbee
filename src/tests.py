@@ -40,8 +40,8 @@ end = time.time()
 print(end - start)
 
 # 3 test
-plain_text = 'c538bd9289822be43363'
-key = '6925278951fbf3b25ccc'
+plain_text = '6925278951fbf3b25ccc'
+key = 'c538bd9289822be43363'
 
 start = time.time()
 enc = itubee.encrypt(plain_text, key)
