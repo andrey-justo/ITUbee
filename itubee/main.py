@@ -129,7 +129,6 @@ class ITUbeeTexts():
 
     def encrypt_text(self, text, key):
         plain_text2_hex =  "".join("{:02x}".format(ord(c)) for c in text)
-        print(plain_text2_hex)
         
         encrypted_texts = []
         for x in range(0, len(plain_text2_hex), 20):
